@@ -1,0 +1,56 @@
+name: vanjs-http
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    environment:
+      name: main
+      url: ${{ steps.backend.outputs.url }}
+    permissions: 
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.ROLE_ARN }}
+          role-session-name: ${{ github.actor }}
+      - uses: alonch/actions-aws-backend-setup@main
+        with: 
+          instance: vanjs-http
+      - uses: alonch/actions-aws-http-node@main
+        id: backend
+        with:
+          name: vanjs-http
+          artifacts: backend/src
+          timeout: 60
+          memory: 512
+          allow-public-access: true
+          routes: |
+            - entrypoint-file: plus
+              entrypoint-function: handler
+              method: post
+              parameters:
+                body: 
+                - name: y
+                  type: number
+                - name: x
+                  type: number
+              responses: 
+                - status-code: 200
+                  body:
+                  - name: total
+                    type: number
+      
+      - uses: pnpm/action-setup@v4
+      - working-directory: frontend
+        run: REACT_APP_API_URL=${{steps.backend.output.url}} pnpm run build
+        
+      - uses: alonch/actions-aws-website@main
+        id: vanjs-website
+        with: 
+          content-path: frontend/public
