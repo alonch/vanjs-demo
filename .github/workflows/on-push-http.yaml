@@ -7,7 +7,7 @@ jobs:
   deploy:
     environment:
       name: main
-      url: ${{ steps.backend.outputs.url }}
+      url: ${{ steps.frontend.outputs.domain }}
     permissions: 
       id-token: write
     runs-on: ubuntu-latest
@@ -50,9 +50,9 @@ jobs:
         with:
           version: 10
       - working-directory: frontend
-        run: REACT_APP_API_URL=${{steps.backend.output.url}} pnpm run build
+        run: REACT_APP_API_URL=${{ steps.backend.outputs.url }} pnpm run build
         
       - uses: alonch/actions-aws-website@main
-        id: vanjs-website
+        id: frontend
         with: 
           content-path: frontend/public
