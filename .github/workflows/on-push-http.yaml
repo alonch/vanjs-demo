@@ -7,7 +7,7 @@ jobs:
   deploy:
     environment:
       name: main
-      url: ${{ steps.frontend.outputs.domain }}
+      url: https://${{ steps.frontend.outputs.domain }}
     permissions: 
       id-token: write
     runs-on: ubuntu-latest
@@ -22,37 +22,32 @@ jobs:
       - uses: alonch/actions-aws-backend-setup@main
         with: 
           instance: vanjs-http
-      - uses: alonch/actions-aws-http-node@main
+      - uses: alonch/actions-aws-function-node@main
         id: backend
-        with:
+        with: 
           name: vanjs-http
           artifacts: backend/src
-          timeout: 60
-          memory: 512
+          entrypoint-file: app.js
+          entrypoint-function: handler
           allow-public-access: true
-          routes: |
-            - entrypoint-file: plus
-              entrypoint-function: handler
-              method: post
-              parameters:
-                body: 
-                - name: y
-                  type: number
-                - name: x
-                  type: number
-              responses: 
-                - status-code: 200
-                  body:
-                  - name: total
-                    type: number
       
       - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
           version: 10
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
       - working-directory: frontend  
         run: pnpm install
       - working-directory: frontend
         run: REACT_APP_API_URL=${{ steps.backend.outputs.url }} pnpm run build
+      
       - uses: alonch/actions-aws-website@main
         id: frontend
         with: 
