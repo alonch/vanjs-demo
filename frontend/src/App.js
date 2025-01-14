@@ -10,7 +10,7 @@ function App() {
   const [total, setTotal] = React.useState(0);
   
   const sum = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/plus`, {
+    fetch(`${process.env.REACT_APP_API_URL}plus`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
