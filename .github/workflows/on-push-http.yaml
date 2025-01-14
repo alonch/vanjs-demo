@@ -55,4 +55,4 @@ jobs:
       - uses: alonch/actions-aws-website@main
         id: frontend
         with: 
-          content-path: frontend/dist
+          content-path: frontend/build
