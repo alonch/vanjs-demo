@@ -42,6 +42,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+          cache-dependency-path: rontend/
 
       - working-directory: frontend  
         run: pnpm install
