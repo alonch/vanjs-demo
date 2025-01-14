@@ -8,7 +8,7 @@ const handler = serverless(app);
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     preflightContinue: true,
   }),
 );
