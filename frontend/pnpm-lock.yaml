@@ -8,9 +8,6 @@ dependencies:
   cra-template:
     specifier: 1.2.0
     version: 1.2.0
-  dotenv:
-    specifier: ^16.4.7
-    version: 16.4.7
   react:
     specifier: ^19.0.0
     version: 19.0.0
@@ -4338,11 +4335,6 @@ packages:
   /dotenv@10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
-    dev: false
-
-  /dotenv@16.4.7:
-    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
-    engines: {node: '>=12'}
     dev: false
 
   /dunder-proto@1.0.1:
