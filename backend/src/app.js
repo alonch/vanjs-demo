@@ -7,10 +7,7 @@ const serverless = require('serverless-http');
 const handler = serverless(app);
 
 app.use(
-  cors({
-    origin: '*',
-    preflightContinue: true,
-  }),
+  cors(),
 );
 
 app.post('/plus', async (httpReq, httpResp) => {
