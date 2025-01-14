@@ -26,8 +26,8 @@ jobs:
         id: backend
         with: 
           name: vanjs-http
-          artifacts: backend/src
-          entrypoint-file: app.js
+          artifacts: backend
+          entrypoint-file: src/app.js
           entrypoint-function: handler
           allow-public-access: true
       
