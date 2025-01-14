@@ -47,6 +47,8 @@ jobs:
                     type: number
       
       - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - working-directory: frontend
         run: REACT_APP_API_URL=${{steps.backend.output.url}} pnpm run build
         
