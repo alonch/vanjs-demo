@@ -1,12 +1,10 @@
 name: on push to main
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 jobs:
   deploy:
     environment:
-      name: main
+      name: ${{ github.head_ref }}
       url: https://${{ steps.frontend.outputs.domain }}
     permissions: 
       id-token: write
@@ -30,7 +28,7 @@ jobs:
         run: npm install
       - uses: alonch/actions-aws-backend-setup@main
         with: 
-          instance: vanjs-http
+          instance: vanjs-${{ github.head_ref }}
       - uses: alonch/actions-aws-function-node@main
         id: backend
         with: 
@@ -39,6 +37,8 @@ jobs:
           entrypoint-file: src/app.js
           entrypoint-function: handler
           allow-public-access: true
+          # destroy infra when PR is closed
+          action: ${{github.event.action == 'closed' && 'destroy' || 'apply'}}
       
       - name: Install Node.js for frontend
         uses: actions/setup-node@v4
@@ -56,3 +56,5 @@ jobs:
         id: frontend
         with: 
           content-path: frontend/build
+          # destroy infra when PR is closed
+          action: ${{github.event.action == 'closed' && 'destroy' || 'apply'}}
