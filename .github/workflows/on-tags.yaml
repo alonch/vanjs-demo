@@ -5,7 +5,7 @@ on:
       - 'v*.*.*'
 
 env: 
-  DOMAIN: realsense.ca
+  DOMAIN: dev.realsense.ca
 
 jobs:
   deploy:
