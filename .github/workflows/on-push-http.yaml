@@ -39,6 +39,7 @@ jobs:
           entrypoint-file: src/app.js
           entrypoint-function: handler
           allow-public-access: true
+          memory: 1536
       
       - name: Install Node.js for frontend
         uses: actions/setup-node@v4
