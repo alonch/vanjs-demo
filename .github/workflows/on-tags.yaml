@@ -41,11 +41,11 @@ jobs:
         run: npm install
       - uses: alonch/actions-aws-backend-setup@main
         with: 
-          instance: vanjs-${{matrix.company}}
+          instance: ${{matrix.company}}
       - uses: alonch/actions-aws-function-node@main
         id: backend
         with: 
-          name: vanjs-http
+          name: ${{matrix.company}}
           artifacts: backend
           entrypoint-file: src/app.js
           entrypoint-function: handler
@@ -67,4 +67,6 @@ jobs:
       - uses: alonch/actions-aws-website@main
         id: frontend
         with: 
+          name: ${{matrix.company}}
+          domain: ${{matrix.company}}.${{ env.DOMAIN }}
           content-path: frontend/build
