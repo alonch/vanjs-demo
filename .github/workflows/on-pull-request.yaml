@@ -1,6 +1,7 @@
 name: on push to main
 on:
   pull_request:
+    types: [opened, synchronize, reopened, closed]
 jobs:
   deploy:
     environment:
